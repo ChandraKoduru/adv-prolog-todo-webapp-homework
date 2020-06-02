@@ -92,14 +92,14 @@ home_page_handler(Request):-
 
 :- http_handler(root(add), add_todo, [id(add_todo)]).
 
-data_to_todotext(['='(todo_text, TodoText)|_], TodoText):- !.
-data_to_todotext([_|R], TodoText):-
-    data_to_todotext(R, TodoText).
+data_todotext(['='(todo_text, TodoText)|_], TodoText):- !.
+data_todotext([_|R], TodoText):-
+    data_todotext(R, TodoText).
 
 add_todo(Request):-
     member(method(post), Request), !,
     http_read_data(Request, Data, []),
-    (data_to_todotext(Data, TodoText); TodoText=""), % default case
+    (data_todotext(Data, TodoText); TodoText=""), % default case..need to handle properly
     http_log("~nData: ~w ~n~n", [Data]),
     http_log("~nTodoText: ~w ~n~n", [TodoText]),
     user_id(UserId),
